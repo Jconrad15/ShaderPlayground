@@ -48,8 +48,11 @@ Shader "Custom/TestShader"
                 
                 //v.vertex.z += Random(v.uv);
                 
-                output.vertex = UnityObjectToClipPos(v.vertex);
+                float4 vertex = float4(v.vertex.xy, v.vertex.z + sin(v.vertex.x) + cos(v.vertex.y), v.vertex.w);
+                
+                output.vertex = UnityObjectToClipPos(vertex);
                 output.normal = UnityObjectToWorldNormal(v.normal);
+                output.uv = v.uv;
                 
                 return output;
             }
