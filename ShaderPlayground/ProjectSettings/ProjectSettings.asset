@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 22
-  productGUID: 36999d6c263795b4592d31c328cbf77b
+  productGUID: 2a9218986f029104097dd4f0ee287fb5
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: ConradCorp
+  companyName: DefaultCompany
   productName: ShaderPlayground
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
