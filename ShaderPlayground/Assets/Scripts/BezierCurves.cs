@@ -79,7 +79,7 @@ public static class BezierCurves
         Vector2 prevPosition = new Vector2();
         for (int i = 0; i < points; i++)
         {
-            Vector2 currPosition = BezierCurves.BezierCubic(t, w);
+            Vector2 currPosition = BezierCubic(t, w);
 
             if (i != 0)
             {

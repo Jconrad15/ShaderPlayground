@@ -64,7 +64,6 @@ public class Graph : MonoBehaviour
         drawnPoints = new GameObject[drawnPointCount];
         UpdateWeights();
 
-        float t = 0;
         float[] lengthTable = BezierCurves.BezierCubicLengthTable(weights, drawnPointCount);
         for (int i = 0; i < lengthTable.Length; i++)
         {
@@ -73,14 +72,16 @@ public class Graph : MonoBehaviour
 
         float interval = 1 / ((float)drawnPointCount - 1);
         float scale = 10 / ((float)drawnPointCount);
+        //float arcLength = BezierCurves.BezierCubicArcLength(weights, drawnPointCount);
 
+        float t = 0;
         for (int i = 0; i < drawnPointCount; i++)
         {
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
-            float tTable = BezierCurves.BezierCubicSampleFromTable(lengthTable, t);
-            Debug.Log("tTable = " + tTable);
-            Vector2 position = BezierCurves.BezierCubic(tTable, weights);
+            //float tTable = BezierCurves.BezierCubicSampleFromTable(lengthTable, t);
+            //Debug.Log("tTable = " + tTable);
+            Vector2 position = BezierCurves.BezierCubic(t, weights);
             go.transform.position = position;
             go.transform.localScale = new Vector3(scale, scale, scale);
             drawnPoints[i] = go;
