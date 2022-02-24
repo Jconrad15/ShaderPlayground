@@ -41,6 +41,31 @@ public static class BezierCurves
         return position;
     }
 
+    public static float BezierCubicArcLength(Vector2[] w, int points = 100)
+    {
+        if (points <= 0) { points = 5; }
+
+        float t = 0;
+        float interval = 1 / ((float)points - 1);
+        float distance = 0;
+
+        Vector2 prevPosition = new Vector2();
+        for (int i = 0; i < points; i++)
+        {
+            Vector2 currPosition = BezierCurves.BezierCubic(t, w);
+
+            if (i != 0)
+            {
+                distance += Vector2.Distance(currPosition, prevPosition);
+            }
+
+            prevPosition = currPosition;
+            t += interval;
+        }
+
+        return distance;
+    }
+
     public static Vector2 RationalBezierQuadratic(float t, Vector2[] w, float[] r)
     {
         float t2 = t * t;

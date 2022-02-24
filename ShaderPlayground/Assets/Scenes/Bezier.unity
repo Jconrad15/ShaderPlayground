@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd15fe408749af4d893d23c5b2d3c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawnPointCount: 4
+  drawnPointCount: 20
   pointPrefab: {fileID: 8071162389730082325, guid: 963391ae24dcce644b2f4a74aabadc68, type: 3}
 --- !u!1 &1210687046
 GameObject:

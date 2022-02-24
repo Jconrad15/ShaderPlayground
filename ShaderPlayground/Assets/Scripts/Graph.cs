@@ -45,7 +45,6 @@ public class Graph : MonoBehaviour
     private void GeneratePoints()
     {
         points = new Transform[pointCount];
-
         for (int i = 0; i < pointCount; i++)
         {
             GameObject p = Instantiate(pointPrefab, this.transform);
@@ -66,17 +65,20 @@ public class Graph : MonoBehaviour
         UpdateWeights();
 
         float t = 0;
-        float interval = 1 / ((float)drawnPointCount - 1);
+        float arcLength = BezierCurves.BezierCubicArcLength(weights);
+        Debug.Log("arcLength = " + arcLength);
+        float interval = (1 / ((float)drawnPointCount - 1));
+        Debug.Log("interval = " + interval);
+        float scale = 10 / ((float)drawnPointCount);
+
         for (int i = 0; i < drawnPointCount; i++)
         {
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
             Vector2 position = BezierCurves.BezierCubic(t, weights);
             go.transform.position = position;
-            
+            go.transform.localScale = new Vector3(scale, scale, scale);
             drawnPoints[i] = go;
-
-            Debug.Log("t = " + t + ".  x = " + position.x + ".  y = " + position.y);
 
             t += interval;
         }
