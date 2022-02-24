@@ -10,9 +10,11 @@ public static class BezierCurves
         float mt = 1 - t;
         float mt2 = mt * mt;
 
-        Vector2 position = new Vector2();
-        position.x = (w[0].x * mt2) + (w[1].x * 2 * mt * t) + (w[2].x * t2);
-        position.y = (w[0].y * mt2) + (w[1].y * 2 * mt * t) + (w[2].y * t2);
+        Vector2 position = new Vector2
+        {
+            x = (w[0].x * mt2) + (w[1].x * 2 * mt * t) + (w[2].x * t2),
+            y = (w[0].y * mt2) + (w[1].y * 2 * mt * t) + (w[2].y * t2)
+        };
 
         return position;
     }
@@ -64,6 +66,53 @@ public static class BezierCurves
         }
 
         return distance;
+    }
+
+    public static float[] BezierCubicLengthTable(Vector2[] w, int points)
+    {
+        float t = 0;
+        float interval = 1 / ((float)points - 1);
+        float distance = 0;
+        float[] lengthTable = new float[points];
+        lengthTable[0] = 0f;
+
+        Vector2 prevPosition = new Vector2();
+        for (int i = 0; i < points; i++)
+        {
+            Vector2 currPosition = BezierCurves.BezierCubic(t, w);
+
+            if (i != 0)
+            {
+                distance += Vector2.Distance(currPosition, prevPosition);
+                lengthTable[i] = distance;
+            }
+
+            prevPosition = currPosition;
+            t += interval;
+        }
+
+        return lengthTable;
+    }
+
+    public static float BezierCubicSampleFromTable(float[] lengthTable, float t)
+    {
+        int count = lengthTable.Length;
+        if (count == 0)
+        {
+            Debug.LogError("Unable to sample array - it has no elements");
+            return 0;
+        }
+
+        if (count == 1) { return lengthTable[0]; }
+
+        float iFloat = t * (count - 1);
+        int idLower = Mathf.FloorToInt(iFloat);
+        int idUpper = Mathf.FloorToInt(iFloat + 1);
+
+        if (idUpper >= count) { return lengthTable[count - 1]; }
+        if (idLower < 0) { return lengthTable[0]; }
+
+        return Mathf.Lerp(lengthTable[idLower], lengthTable[idUpper], iFloat - idLower);
     }
 
     public static Vector2 RationalBezierQuadratic(float t, Vector2[] w, float[] r)

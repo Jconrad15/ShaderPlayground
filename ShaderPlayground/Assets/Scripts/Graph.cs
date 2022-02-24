@@ -65,17 +65,22 @@ public class Graph : MonoBehaviour
         UpdateWeights();
 
         float t = 0;
-        float arcLength = BezierCurves.BezierCubicArcLength(weights);
-        Debug.Log("arcLength = " + arcLength);
-        float interval = (1 / ((float)drawnPointCount - 1));
-        Debug.Log("interval = " + interval);
+        float[] lengthTable = BezierCurves.BezierCubicLengthTable(weights, drawnPointCount);
+        for (int i = 0; i < lengthTable.Length; i++)
+        {
+            Debug.Log("lengthTable " + i + " = " + lengthTable[i]);
+        }
+
+        float interval = 1 / ((float)drawnPointCount - 1);
         float scale = 10 / ((float)drawnPointCount);
 
         for (int i = 0; i < drawnPointCount; i++)
         {
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
-            Vector2 position = BezierCurves.BezierCubic(t, weights);
+            float tTable = BezierCurves.BezierCubicSampleFromTable(lengthTable, t);
+            Debug.Log("tTable = " + tTable);
+            Vector2 position = BezierCurves.BezierCubic(tTable, weights);
             go.transform.position = position;
             go.transform.localScale = new Vector3(scale, scale, scale);
             drawnPoints[i] = go;
